@@ -3,5 +3,6 @@
 .vscode
 __pycache__
 pipeline_data.txt
+inputs.ini
 *.cpp
 *.csv
