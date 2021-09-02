@@ -1,14 +1,14 @@
 /* 
 	@author: 		Rik Ghosh
-	@copyright: 	Copyright 2021, University of Texas at Austin
+	@copyright:		Copyright 2021, University of Texas at Austin
 	@credits: 		Soham Saha, Larissa Franco
 	@license: 		MIT
 	@version: 		1.0.5
-	@maintainer: 	Rik Ghosh
+	@maintainer:	Rik Ghosh
 	@email: 		rikghosh487@gmail.com
 	@status: 		production
 
-	@description: 	Template SQL query to use for obtaining data from the GAIA EDR3 data archive
+	@description:	Template SQL query to use for obtaining data from the GAIA EDR3 data archive
 	@link:			https://gea.esac.esa.int/archive/
 	@usecase:		Bootstrap to required known or unknown cluster to generate a dataset for the pipeline
 	@format:		Must produce a .CSV
