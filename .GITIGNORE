@@ -1,0 +1,5 @@
+# IGNORE LIST for discarded files in the GIT repository for remote access
+
+.vscode
+__pycache__
+*.cpp
