@@ -5,6 +5,7 @@
 """
 
 # imports
+from os import read
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -41,6 +42,7 @@ def main():
     filename = read_config.get(SECTION, "filename")
     centerx = float(read_config.get(SECTION, "x-center"))
     centery = float(read_config.get(SECTION, "y-center"))
+    distance = float(read_config.get(SECTION, "distance"))
     verbosity = int(read_config.get(SECTION, "verbosity"))
     gamma_thresh = float(read_config.get(SECTION, "gamma-thresh"))
     two_tail_factor = float(read_config.get(SECTION, "two-tail-factor"))
@@ -67,22 +69,22 @@ def main():
     print(f"Gamma Error reduction: {len(dataframe)} datapoints")   # debug
 
     # Chopping Parallax to prepare for GMM
+    dataframe = dataframe[(dataframe["pmra"] >= -40) & (dataframe["pmra"] <= 40)]
+    dataframe = dataframe[(dataframe["pmdec"] >= -40) & (dataframe["pmdec"] <= 40)]
     dataframe = dataframe[dataframe["parallax"] >= 0]
-    dataframe = dataframe[(dataframe["pmra"] >= -30) & (dataframe["pmra"] <= 30)]
-    dataframe = dataframe[(dataframe["pmdec"] >= -30) & (dataframe["pmdec"] <= 30)]
     print(f"Parallax Reduction: {len(dataframe)}")  # debug
 
     # double scratching GMMs
-    dataframe = gmod.get_test_dataset(dataframe, GMM_LIST, centerx, centery)
+    dataframe = gmod.get_test_dataset(dataframe, GMM_LIST, centerx, centery, distance)
     print(f"Gaussian Mixture Model Reduction #1: {len(dataframe)}")
     dataframe = db.dbscan_reduction(dataframe, "pmra", "pmdec", 20, verbose=1)
     print(f"DBSCAN Reduction: {len(dataframe)}")
-    dataframe = gmod.get_test_dataset(dataframe, GMM_LIST, centerx, centery)
-    print(f"Gaussian Mixture Model Reduction #2: {len(dataframe)}")
 
-    dataframe = tte.chop_tails(dataframe, "pmra", BINSIZE//4, two_tail_factor, verbosity)
-    dataframe = tte.chop_tails(dataframe, "pmdec", BINSIZE//4, two_tail_factor, verbosity)
-    dataframe = tte.chop_tails(dataframe, "parallax", BINSIZE//4, two_tail_factor, verbosity)
+    dataframe = tte.chop_tails(dataframe, "ra", BINSIZE, two_tail_factor, verbosity)
+    dataframe = tte.chop_tails(dataframe, "dec", BINSIZE, two_tail_factor, verbosity)
+    dataframe = tte.chop_tails(dataframe, "pmra", BINSIZE, two_tail_factor, verbosity)
+    dataframe = tte.chop_tails(dataframe, "pmdec", BINSIZE, two_tail_factor, verbosity)
+    dataframe = tte.chop_tails(dataframe, "parallax", BINSIZE, two_tail_factor, verbosity)
     print(f"Two-tail Error Reduction: {len(dataframe)} datapoints")   # debug
     
     vis.generate_plots(dataframe)
