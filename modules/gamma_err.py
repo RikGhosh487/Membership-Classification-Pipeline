@@ -21,34 +21,24 @@ __status__ = "Production"
 
 def remove_error(data, param, bins=25, pthresh=.5, verbose=0):
     """
-    Selects a certain parameter from a `pandas` DataFrame and creates
-    a Matplotlib histogram for the given data. Then it fits a `Gamma
-    Distribution` to perform statistical error reduction.
-    \n
+    Selects the specified field from the pandas DataFrame and fits a Gamma Distribution on the data in the field to perform statistical error reductions. Depending on the verbosity, it can also create a matplotlib.pyplot histogram for the data in the specified field with a fitted Gamma Distribution superimposed. It can also print out Gamma Distribution parameters based on the verbosity\n
     Args:
-        data (pandas.core.frame.DataFrame): The `Pandas` dataframe that contains the dataset
-        param (str): An attribute present in the `data` parameter that will be processed in the
-                     algorithm. This `param` needs to be `x >= 0 for x in data[param]` in order
-                     to fit a `Gamma Distribution`
-        bins (int, optional): Number of bins for the histogram. Defaults to 25.
-        pthresh (float, optional): Maximum threshold for selecting datapoints. Must be in the range
-                                   [0., 1.]. Defaults to .85.
-        verbose (int, optional): Verbosity for the algorithm. Must be in the range [0,2].
-                                 0 -> No histogram or debug statements, data returned post processeing
-                                 1 -> Histogram displayed and data returned post processing
-                                 2 -> Histogram displayed, debug statements printed, and data returned
-                                 Defaults to 0.
-    \n
+    ► `data` (pandas.core.frame.DataFrame): The pandas dataframe that contains the dataset.\n
+    ► `param` (str): An attribute present in the `data` parameter that will be processed in the algorithm. This `param` needs to be `x >= 0 for x in data[param]` in order to fit a Gamma Distribution.\n
+    ► `bins` (int, optional): Number of bins for the histogram. Defaults to `25`.\n
+    ► `pthresh` (float, optional): Maximum threshold for selecting datapoints. Must be in the range [0.0, 1.0]. Defaults to `0.5`.
+    ► `verbose` (int, optional): Verbosity for the algorithm. Must be in the range [0,2]. Defaults to `0`.\n
+        `0` → No histogram or debug statements, data returned post processeing\n
+        `1` → Histogram displayed and data returned post processing\n
+        `2` → Histogram displayed, debug statements printed, and data returned.\n
     Returns:
-        [pandas.core.frame.Dataframe]: the same dataframe `data` after the required restrictions have
-                                       been enforced via the Gamma Distribution and `pthresh`.
-    \n
-    Raises:
-        KeyError: invalid parameter `param`
-        ValueError: data for parameter contains negatives
-        ValueError: bins < 0
-        ValueError: pthresh > 1. or pthresh < 0.
-        ValueError: verbosity != 0 or 1 or 2
+    ► data (pandas.core.frame.Dataframe): the same dataframe `data` after the required restrictions have been enforced via the Gamma Distribution and `pthresh`.\n
+    Raises:\n
+        `KeyError` → invalid parameter `param`\n
+        `ValueError` → data for parameter contains negatives\n
+        `ValueError` → `bins < 0`\n
+        `ValueError` → `pthresh > 1.0` or `pthresh < 0.0`\n
+        `ValueError` → `verbosity != 0` or `1` or `2`\n
     """
     # scope constants
     raw_array = None
@@ -64,8 +54,8 @@ def remove_error(data, param, bins=25, pthresh=.5, verbose=0):
     if bins < 1:
         raise ValueError(f"Must have at least 1 bin.\nValue provided: {bins}")
     if pthresh > 1. or pthresh < 0.:
-        raise ValueError("pthresh must be within the following range: 0. < pthresh < 1." 
-                + f"\nValue provided: {pthresh}")
+        raise ValueError("pthresh must be within the following range: 0.0 < pthresh < 1.0\n" 
+                + f"Value provided: {pthresh}")
     if verbose not in acceptable_verbose:
         raise ValueError(f"Verbosity can only be 0, 1, or 2.\nValue provided: {verbose}")
     
