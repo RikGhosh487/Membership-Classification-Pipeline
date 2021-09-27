@@ -8,7 +8,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
-import math
 
 __author__ = "Rik Ghosh"
 __copyright__ = "Copyright 2021, The University of Texas at Austin"

@@ -23,16 +23,16 @@ def remove_error(data, param, bins=25, pthresh=.5, verbose=0):
     """
     Selects the specified field from the pandas DataFrame and fits a Gamma Distribution on the data in the field to perform statistical error reductions. Depending on the verbosity, it can also create a matplotlib.pyplot histogram for the data in the specified field with a fitted Gamma Distribution superimposed. It can also print out Gamma Distribution parameters based on the verbosity\n
     Args:
-    ► `data` (pandas.core.frame.DataFrame): The pandas dataframe that contains the dataset.\n
-    ► `param` (str): An attribute present in the `data` parameter that will be processed in the algorithm. This `param` needs to be `x >= 0 for x in data[param]` in order to fit a Gamma Distribution.\n
-    ► `bins` (int, optional): Number of bins for the histogram. Defaults to `25`.\n
-    ► `pthresh` (float, optional): Maximum threshold for selecting datapoints. Must be in the range [0.0, 1.0]. Defaults to `0.5`.
-    ► `verbose` (int, optional): Verbosity for the algorithm. Must be in the range [0,2]. Defaults to `0`.\n
+    ► `data` (pandas.core.frame.DataFrame): The pandas dataframe that contains the dataset\n
+    ► `param` (str): An attribute present in the `data` parameter that will be processed in the algorithm. This `param` needs to be `x >= 0 for x in data[param]` in order to fit a Gamma Distribution\n
+    ► `bins` (int, optional): Number of bins for the histogram. Defaults to `25`\n
+    ► `pthresh` (float, optional): Maximum threshold for selecting datapoints. Must be in the range [0.0, 1.0]. Defaults to `0.5`
+    ► `verbose` (int, optional): Verbosity for the algorithm. Must be in the range [0,2]. Defaults to `0`\n
         `0` → No histogram or debug statements, data returned post processeing\n
         `1` → Histogram displayed and data returned post processing\n
-        `2` → Histogram displayed, debug statements printed, and data returned.\n
+        `2` → Histogram displayed, debug statements printed, and data returned\n
     Returns:
-    ► data (pandas.core.frame.Dataframe): the same dataframe `data` after the required restrictions have been enforced via the Gamma Distribution and `pthresh`.\n
+    ► data (pandas.core.frame.Dataframe): the same dataframe `data` after the required restrictions have been enforced via the Gamma Distribution and `pthresh`\n
     Raises:\n
         `KeyError` → invalid parameter `param`\n
         `ValueError` → data for parameter contains negatives\n
