@@ -76,7 +76,12 @@ def main():
     dataframe = gmod.get_test_dataset(dataframe, GMM_LIST, centerx, centery, distance, verbosity)
     if verbosity != 0:
         print(f"Gaussian Mixture Model Reduction: {len(dataframe)} datapoints")
-    dataframe = db.dbscan_reduction(dataframe, "pmra", "pmdec", 5, verbosity)
+    
+    # determine optimal min_samples parameter
+    min_samples = 25 if len(dataframe) > 1000 else int(pow(len(dataframe), 0.4))
+    if verbosity == 2:
+        print(f"DBSCAN min_samples used: {min_samples}")
+    dataframe = db.dbscan_reduction(dataframe, "pmra", "pmdec", min_samples, verbosity)
     if verbosity != 0:
         print(f"DBSCAN Reduction: {len(dataframe)} datapoints")
 
