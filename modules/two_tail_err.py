@@ -20,34 +20,25 @@ __status__ = "Production"
 
 def chop_tails(data, param, bins=25, factor=1, verbose=0):
     """
-    Selects a certain parameter from a `pandas` DataFrame and creates
-    a Matplotlib histogram for the given data. Then it fits a `Gaussian
-    Distribution` to perform statistical error reduction.
-    \n
+    Selects a certain parameter from a pandas DataFrame and creates a Matplotlib histogram for the given data. Then it fits a Gaussian Distribution to perform statistical error reduction\n
     Args:
-        data (pandas.core.frame.DataFrame): The `Pandas` dataframe that contains the dataset
-        param (str): An attribute present in the `data` parameter that will be processed in the
-                     algorithm.
-        bins (int, optional): Number of bins for the histogram. Defaults to 25.
-        factor (float, optional): Scaling factor for standard deviation for Gaussian fitting. Must
-                                be a positive value. Defaults to 1.
-        verbose (int, optional): Verbosity for the algorithm. Must be in the range [0,2].
-                                 0 -> No histogram or debug statements, data returned post processeing
-                                 1 -> Histogram displayed and data returned post processing
-                                 2 -> Histogram displayed, debug statements printed, and data returned
-                                 Defaults to 0.
-    \n
-    Returns:
-        [pandas.core.frame.Dataframe]: the same dataframe `data` after the required restrictions have
-                                       been enforced via the Gaussian Distribution and `pthresh`.
-    \n
-    Raises:
-        KeyError: invalid parameter `param`
-        ValueError: bins < 0
-        ValueError: factor < 0.
-        ValueError: verbosity != 0 or 1 or 2
+    ► `data` (pandas.core.frame.DataFrame): The pandas dataframe that contains the dataset\n
+    ► `param` (str): An attribute present in the data parameter that will be processed in the algorithm\n
+    ► `bins` (int, optional): Number of bins for the histogram. Defaults to `25`\n
+    ► `factor` (float, optional): Scaling factor for standard deviation for Gaussian fitting. Must be a positive value. Defaults to `1`\n
+    ► `verbose` (int, optional): Verbosity for the algorithm. Must be in the range [0,2]. Defaults to `0`\n
+        `0` → No histogram or debug statements, data returned post processeing\n
+        `1` → Histogram displayed and data returned post processing\n
+        `2` → Histogram displayed, debug statements printed, and data returned\n
+    Returns:\n
+    ► data (pandas.core.frame.Dataframe): the same dataframe `data` after the required restrictions have been enforced via the Gaussian Distribution and `pthresh`\n
+    Raises:\n
+        `KeyError` → invalid parameter `param`
+        `ValueError` → `bins < 0`\n
+        `ValueError` → `factor < 0`\n
+        `ValueError` → `verbosity != 0` or `1` or `2`\n
     """
-    # scopt constants
+    # scope constants
     raw_array = None
     acceptable_verbose = [0, 1, 2]
 
@@ -65,8 +56,8 @@ def chop_tails(data, param, bins=25, factor=1, verbose=0):
     
     mean = np.mean(raw_array)   # mean
     std = np.std(raw_array)     # standard deviation
-    if verbose > 0:     # histogram and fitting
-        hist, bins, _ = plt.hist(x=raw_array, bins=bins, density=True, histtype="step") # histogram
+    if verbose > 0:             # histogram and fitting
+        _, bins, _ = plt.hist(x=raw_array, bins=bins, density=True, histtype="step") # histogram
         if verbose == 2:
             print(f"\u03bc: {mean}, \u03c3: {std}")
         p = stats.norm.pdf(bins, mean, std)
