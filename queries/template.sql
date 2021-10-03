@@ -3,7 +3,7 @@
 	@copyright:		Copyright 2021, University of Texas at Austin
 	@credits: 		Soham Saha, Larissa Franco
 	@license: 		MIT
-	@version: 		1.0.5
+	@version: 		1.0.6
 	@maintainer:	Rik Ghosh
 	@email: 		rikghosh487@gmail.com
 	@status: 		production
@@ -29,14 +29,8 @@ SELECT
 	gaia_source.pmra_error,
 	gaia_source.pmdec,
 	gaia_source.pmdec_error,
-	-- correlation data
-	gaia_source.parallax_pmra_corr,
-	gaia_source.parallax_pmdec_corr,
-	gaia_source.pmra_pmdec_corr,
 	-- photometric data
 	gaia_source.phot_g_mean_mag,
-	gaia_source.phot_bp_mean_mag,
-	gaia_source.phot_rp_mean_mag,
 	gaia_source.bp_rp,
 	gaia_source.bp_g,
 	gaia_source.g_rp
@@ -46,5 +40,5 @@ FROM gaiaedr3.gaia_source
 WHERE
 	CONTAINS(
 		POINT('ICRS', gaiaedr3.gaia_source.ra, gaiaedr3.gaia_source.dec),
-		CIRCLE('ICRS', <center ra>, <center dec>, <cone search radius>)		-- recommended radius: 1 to 2.5
+		CIRCLE('ICRS', <center ra>, <center dec>, <cone search radius>)	-- recommended raw file size: < 250000
 	)=1
