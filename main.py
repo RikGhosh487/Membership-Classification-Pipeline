@@ -10,6 +10,7 @@ import configparser
 
 # custom module imports
 from modules import two_tail_err as tte
+from modules import msf_dist as dist
 from modules import gamma_err as ger
 from modules import visualize as vis
 from modules import mixmod as gmod
@@ -113,7 +114,8 @@ def main():
         vis.generate_plots(dataframe)
 
     # output file
-    dataframe.to_csv("finalized.csv", index=False)
+    dist.msf(dataframe, 0)
+    dataframe.to_csv(f"{filename}_finalized.csv", index=False)
 
 if __name__=="__main__":
     main()
