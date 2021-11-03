@@ -115,7 +115,7 @@ def main():
 
     # output file
     dist.msf(dataframe, 0)
-    dataframe.to_csv(f"{filename}_finalized.csv", index=False)
+    dataframe.to_csv(f"{filename[:-4]}_finalized.csv", index=False)
 
 if __name__=="__main__":
     main()

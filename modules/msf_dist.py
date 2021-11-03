@@ -6,10 +6,8 @@ Applies Main Sequence Fitting on the target cluster after processing through the
 
 # imports
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import numpy as np
-from scipy.stats.stats import iqr
 import math
 
 __author__ = "Rik Ghosh"
@@ -25,24 +23,35 @@ def msf(dataframe, verbose=0):
     # scope variables
     standard_filename = "hyades_absolute.csv"
 
-    dataframe = __main_sequence_isolator(dataframe)         # isolate the main sequence line
+    # dataframe = __main_sequence_isolator(dataframe)         # isolate the main sequence line
     df = pd.read_csv(standard_filename)
 
-    # shift to the center of the standard
-    dataframe["g_rp"] = dataframe["g_rp"] + (np.median(df["b_v"]) - np.median(dataframe["g_rp"]))
+    # shift to the turn off point of the standard
+    dataframe["g_rp"] = dataframe["g_rp"] + (min(df["b_v"]) - min(dataframe["g_rp"]))
 
-    _, bins, _ = plt.hist(df["b_v"], histtype="step")
+    if verbose != 0:
+        _, bins, _ = plt.hist(df["b_v"], histtype="step", bins=23)
+        plt.show()
+    else:
+        _, bins = np.histogram(df["b_v"], bins=23)
+
+    plt.gca().invert_yaxis()
+    plt.scatter(dataframe["g_rp"], dataframe["phot_g_mean_mag"], marker=".")
+    plt.scatter(df["b_v"], df["v_abs"], marker=".")
     plt.show()
 
-    count = 0
-    total = 0
+    dist = list()
     for i in range(len(bins) - 1):
         temp1 = dataframe[(dataframe["g_rp"] >= bins[i]) & (dataframe["g_rp"] < bins[i + 1])]
         temp2 = df[(df["b_v"] >= bins[i]) & (df["b_v"] < bins[i + 1])]
         if(len(temp1) != 0 and len(temp2) != 0):
-            total += __get_mod(temp1, temp2)
-            count += 1
-    print(f"Average Distance = {total / count}")
+            dist.append(__get_mod(temp1, temp2))
+
+    dist.sort()
+    dist.pop(1)
+    dist.pop(1)
+    dist.pop(1)
+    print(f"Average Distance = {sum(dist) / len(dist)}")
 
 def __main_sequence_isolator(dataframe):
     dataframe = dataframe[dataframe["phot_g_mean_mag"] <= 20]
