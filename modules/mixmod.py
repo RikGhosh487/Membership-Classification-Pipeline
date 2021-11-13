@@ -152,7 +152,7 @@ def __fit_gmm(test_frame, verbose=0):
     count1, count2 = len(mem1), len(mem2)
 
     hist1, _ = np.histogram(l1, 100)
-    hist2, _ = np.histogram(l2, 100)    
+    hist2, _ = np.histogram(l2, 100)
     stdev1 = np.std(hist1[-5:])
     stdev2 = np.std(hist2[-5:])
 
