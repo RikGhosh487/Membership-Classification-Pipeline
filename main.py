@@ -5,14 +5,15 @@ A generalized open stellar cluster membership classification algorithm that dist
 """
 
 # imports
+from os import read
 import pandas as pd
 import configparser
 
 # custom module imports
 from modules import two_tail_err as tte
-from modules import msf_dist as dist
 from modules import gamma_err as ger
 from modules import visualize as vis
+from modules import phot_met as pmt
 from modules import mixmod as gmod
 from modules import db
 
@@ -48,6 +49,8 @@ def main():
     centerx = float(read_config.get(SECTION, "x-center"))
     centery = float(read_config.get(SECTION, "y-center"))
     distance = float(read_config.get(SECTION, "distance"))
+    do_metallicity = bool(read_config.get(SECTION, "metallicity"))
+    sdss_filename = read_config.get(SECTION, "sdss")
     verbosity = int(read_config.get(SECTION, "verbosity"))
     gamma_thresh = float(read_config.get(SECTION, "gamma-thresh"))
     two_tail_factor = float(read_config.get(SECTION, "two-tail-factor"))
@@ -114,7 +117,8 @@ def main():
         vis.generate_plots(dataframe)
 
     # output file
-    dist.msf(dataframe, 0)
+    if do_metallicity:
+        pmt.photo_metallicity(dataframe, sdss_filename, verbosity)
     dataframe.to_csv(f"{filename[:-4]}_finalized.csv", index=False)
 
 if __name__=="__main__":
